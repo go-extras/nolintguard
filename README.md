@@ -27,8 +27,14 @@ go get github.com/go-extras/nolintguard
 ### As a standalone tool
 
 ```bash
-# Install from source
+# Install latest release
 go install github.com/go-extras/nolintguard/cmd/nolintguard@latest
+
+# Install specific version
+go install github.com/go-extras/nolintguard/cmd/nolintguard@v1.0.0
+
+# Or download pre-built binaries from GitHub Releases
+# https://github.com/go-extras/nolintguard/releases
 
 # Or build locally
 make build
@@ -283,6 +289,10 @@ make install
 # Run tests
 make test
 
+# Run tests with coverage
+go test -coverprofile=coverage.out -covermode=atomic ./...
+go tool cover -html=coverage.out
+
 # Run linter
 make lint
 
@@ -307,4 +317,55 @@ go build ./...
 
 # Build standalone binary
 go build -o bin/nolintguard ./cmd/nolintguard
+
+# Test GoReleaser configuration
+goreleaser check
+
+# Build snapshot (local testing)
+goreleaser build --snapshot --clean --single-target
+```
+
+### Releases
+
+Releases are automated using GoReleaser:
+
+- **Pull Requests**: Snapshot builds are created as artifacts for testing
+- **Tagged Releases**: Production releases are published to GitHub Releases when a tag is pushed
+
+To create a new release:
+
+```bash
+# Tag the release
+git tag -a v1.0.0 -m "Release v1.0.0"
+
+# Push the tag
+git push origin v1.0.0
+```
+
+The CI/CD pipeline will automatically:
+- Build binaries for all supported platforms (Linux, macOS, Windows, FreeBSD)
+- Create archives (tar.gz for Unix, zip for Windows)
+- Generate checksums
+- Publish to GitHub Releases
+
+### Version Management
+
+Go and tool versions are centrally managed in `.github/actions/vars/action.yml`. See [`.github/VERSIONS.md`](.github/VERSIONS.md) for details on updating versions.
+
+Current versions:
+- Go: 1.24.0 (minimum), 1.25.5 (latest)
+- golangci-lint: v2.7.2
+
+## Testing
+
+The project has comprehensive test coverage (97.7%) covering all corner cases and edge cases. See [TESTING.md](TESTING.md) for detailed testing documentation.
+
+Key test areas:
+- Nolint directive variations (whitespace, duplicates, multiple linters)
+- Gosec directives (#nosec, //gosec:ignore, //gosec:disable)
+- Revive directives (all variations: disable, enable, -line, -next-line)
+- Justification requirements (with/without, empty, Unicode, emoji)
+- Forbidden linters (gosec, revive, custom)
+- Configuration combinations
+- Block comments and special cases
 ```

@@ -1,0 +1,18 @@
+name: "Vars"
+description: "Exposes versions for common tools used in workflows"
+outputs:
+  go_version:
+    description: "Go version (latest stable)"
+    value: '1.25.5'
+  go_version_min:
+    description: "Go version (minimum supported)"
+    value: '1.24.0'
+  go_versions_matrix:
+    description: "Go versions for matrix testing (JSON array)"
+    value: '["1.24.0", "1.25.5"]'
+  golangci_lint_version:
+    description: "golangci-lint version"
+    value: 'v2.7.2'
+runs:
+  using: "composite"
+  steps: []
