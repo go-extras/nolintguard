@@ -1,6 +1,6 @@
 # nolintguard
 
-[![CI](https://github.com/go-extras/nolintguard/workflows/CI/badge.svg)](https://github.com/go-extras/nolintguard/actions)
+[![CI/CD Pipeline](https://github.com/go-extras/nolintguard/actions/workflows/ci.yml/badge.svg)](https://github.com/go-extras/nolintguard/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-extras/nolintguard)](https://goreportcard.com/report/github.com/go-extras/nolintguard)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
