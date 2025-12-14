@@ -1,0 +1,116 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  COVERAGE_THRESHOLD: 50
+
+jobs:
+  # Setup job to expose variables
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      go_version: ${{ steps.vars.outputs.go_version }}
+      go_version_min: ${{ steps.vars.outputs.go_version_min }}
+      go_versions_matrix: ${{ steps.vars.outputs.go_versions_matrix }}
+      golangci_lint_version: ${{ steps.vars.outputs.golangci_lint_version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - id: vars
+        uses: ./.github/actions/vars
+
+  # Build verification - ensure library compiles
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ${{ fromJSON(needs.setup.outputs.go_versions_matrix) }}
+    needs: setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Build library
+        run: go build -v ./...
+
+      - name: Build standalone binary
+        run: go build -v -o bin/nolintguard ./cmd/nolintguard
+
+  # Unit Tests
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ${{ fromJSON(needs.setup.outputs.go_versions_matrix) }}
+    needs: setup
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Run unit tests with race detection
+        run: |
+          go test -race -v -coverprofile=coverage.out -covermode=atomic ./...
+
+      - name: Generate coverage report
+        run: |
+          go tool cover -html=coverage.out -o coverage.html
+          go tool cover -func=coverage.out | tail -1 | awk '{print $3}' | sed 's/%//' > coverage.txt
+
+      - name: Check coverage threshold
+        run: |
+          COVERAGE=$(cat coverage.txt)
+          echo "Coverage: ${COVERAGE}%"
+          if (( $(echo "$COVERAGE < $COVERAGE_THRESHOLD" | bc -l) )); then
+            echo "Coverage ${COVERAGE}% is below threshold ${COVERAGE_THRESHOLD}%"
+            exit 1
+          fi
+
+      - name: Upload coverage to Codecov
+        if: matrix.go-version == needs.setup.outputs.go_version
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.out
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: Upload coverage artifacts
+        if: matrix.go-version == needs.setup.outputs.go_version
+        uses: actions/upload-artifact@v5
+        with:
+          name: coverage-report
+          path: |
+            coverage.out
+            coverage.html
+            coverage.txt

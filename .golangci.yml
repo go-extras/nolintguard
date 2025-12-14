@@ -2,7 +2,7 @@ version: "2"
 
 run:
   concurrency: 8
-  go: "1.25.5"
+  go: "1.24.0"
 
 linters:
   default: none
@@ -266,6 +266,8 @@ linters:
       - path: 'cmd/.*\.go$'
         linters:
           - gochecknoinits
+          - depguard
+          - forbidigo
     paths:
       - 'third_party$'
       - 'builtin$'

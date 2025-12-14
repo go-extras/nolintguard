@@ -252,8 +252,17 @@ func hasReviveJustification(text string) bool {
 	// Skip past "revive:"
 	text = strings.TrimPrefix(text, "revive:")
 
-	// Common patterns: disable, disable-line, disable-next-line, enable
-	for _, prefix := range []string{"disable", "enable"} {
+	// Common patterns: disable, disable-line, disable-next-line, enable, enable-line, enable-next-line
+	prefixes := []string{
+		"disable-next-line",
+		"disable-line",
+		"disable",
+		"enable-next-line",
+		"enable-line",
+		"enable",
+	}
+
+	for _, prefix := range prefixes {
 		if strings.HasPrefix(text, prefix) {
 			text = strings.TrimPrefix(text, prefix)
 

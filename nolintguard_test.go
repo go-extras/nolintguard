@@ -46,4 +46,44 @@ func TestAnalyzer(t *testing.T) {
 		}
 		analysistest.Run(t, testdata, analyzer, "e")
 	})
+
+	t.Run("edge cases", func(t *testing.T) {
+		// Test edge cases: duplicates, trailing commas, whitespace, etc.
+		analyzer := nolintguard.NewAnalyzer()
+		analysistest.Run(t, testdata, analyzer, "f")
+	})
+
+	t.Run("revive edge cases with justification required", func(t *testing.T) {
+		// Test revive directive variations with justification requirement
+		analyzer := nolintguard.NewAnalyzer()
+		err := analyzer.Flags.Set("require-justification", "true")
+		if err != nil {
+			t.Fatal(err)
+		}
+		analysistest.Run(t, testdata, analyzer, "g")
+	})
+
+	t.Run("combined flags", func(t *testing.T) {
+		// Test combination of require-justification and forbidden-linters
+		analyzer := nolintguard.NewAnalyzer()
+		err := analyzer.Flags.Set("require-justification", "true")
+		if err != nil {
+			t.Fatal(err)
+		}
+		err = analyzer.Flags.Set("forbidden-linters", "staticcheck,unused")
+		if err != nil {
+			t.Fatal(err)
+		}
+		analysistest.Run(t, testdata, analyzer, "h")
+	})
+
+	t.Run("gosec and nosec edge cases with justification required", func(t *testing.T) {
+		// Test gosec and #nosec directive edge cases
+		analyzer := nolintguard.NewAnalyzer()
+		err := analyzer.Flags.Set("require-justification", "true")
+		if err != nil {
+			t.Fatal(err)
+		}
+		analysistest.Run(t, testdata, analyzer, "i")
+	})
 }
