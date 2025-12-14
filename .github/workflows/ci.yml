@@ -107,7 +107,7 @@ jobs:
 
       - name: Upload coverage artifacts
         if: matrix.go-version == needs.setup.outputs.go_version
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-report
           path: |
