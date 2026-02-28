@@ -68,7 +68,7 @@ func makeRun(requireJustification *bool, forbiddenLinters *string) func(*analysi
 		// Parse forbidden linters from comma-separated string
 		forbiddenMap := make(map[string]bool)
 		if *forbiddenLinters != "" {
-			for _, linter := range strings.Split(*forbiddenLinters, ",") {
+			for linter := range strings.SplitSeq(*forbiddenLinters, ",") {
 				linter = strings.TrimSpace(linter)
 				if linter != "" {
 					forbiddenMap[linter] = true
@@ -232,13 +232,13 @@ func checkReviveJustification(pass *analysis.Pass, comment *ast.Comment, text st
 // A justification should be in the format: "-- reason for suppression".
 func hasGosecJustification(text string) bool {
 	// Look for the justification marker "--"
-	idx := strings.Index(text, "--")
-	if idx == -1 {
+	_, after, ok := strings.Cut(text, "--")
+	if !ok {
 		return false
 	}
 
 	// Check that there's actual content after the "--"
-	justification := strings.TrimSpace(text[idx+2:])
+	justification := strings.TrimSpace(after)
 	return len(justification) > 0
 }
 
@@ -263,8 +263,8 @@ func hasReviveJustification(text string) bool {
 	}
 
 	for _, prefix := range prefixes {
-		if strings.HasPrefix(text, prefix) {
-			text = strings.TrimPrefix(text, prefix)
+		if after, ok := strings.CutPrefix(text, prefix); ok {
+			text = after
 
 			// Check for optional rule name: disable:rule-name
 			if strings.HasPrefix(text, ":") {

@@ -16,7 +16,7 @@ install:
 # Run tests
 test:
 	@echo "Running tests..."
-	@go test -v ./...
+	@go test -v -race ./...
 
 # Run linter
 lint:
@@ -25,13 +25,10 @@ lint:
 
 # Run linter and fix issues
 lint-fix:
+	@echo "Running go fix..."
+	@go fix ./...
 	@echo "Running golangci-lint with autofix..."
 	@golangci-lint run ./... --fix
-
-# Run formatters
-fmt:
-	@echo "Running formatters..."
-	@golangci-lint run --fix ./...
 
 # Clean build artifacts
 clean:
@@ -45,8 +42,8 @@ help:
 	@echo "  build    - Build the standalone binary to bin/nolintguard"
 	@echo "  install  - Install the binary to GOPATH/bin"
 	@echo "  test     - Run all tests"
-	@echo "  lint     - Run golangci-lint"
-	@echo "  fmt      - Run formatters (auto-fix)"
+	@echo "  lint     - Run linters"
+	@echo "  lint-fix - Run linters with autofix"
 	@echo "  clean    - Remove build artifacts"
 	@echo "  help     - Show this help message"
 

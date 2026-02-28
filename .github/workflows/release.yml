@@ -22,13 +22,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - id: vars
-        uses: ./.github/actions/vars
-
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version: ${{ steps.vars.outputs.go_version }}
+          go-version: 1.26.0
           cache: true
           cache-dependency-path: go.sum
 
