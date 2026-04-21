@@ -43,6 +43,23 @@ make build
 make install
 ```
 
+### As a pinned tool dependency (Go 1.24+)
+
+Use Go's `tool` directive to keep `nolintguard` versioned in your module graph (`go.mod`/`go.sum`) with no separate install step.
+
+```go
+// go.mod
+tool github.com/go-extras/nolintguard/cmd/nolintguard
+```
+
+```bash
+# Pin a specific version once
+go get -tool github.com/go-extras/nolintguard/cmd/nolintguard@v1.0.0
+
+# Run from anywhere in the module
+go tool nolintguard ./...
+```
+
 ## Usage
 
 ### Standalone Mode
