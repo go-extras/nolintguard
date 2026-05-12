@@ -2,7 +2,7 @@ module github.com/go-extras/nolintguard
 
 go 1.25.0
 
-require golang.org/x/tools v0.44.0
+require golang.org/x/tools v0.45.0
 
 require (
 	golang.org/x/mod v0.36.0 // indirect
