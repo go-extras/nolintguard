@@ -32,16 +32,16 @@ func nosecWhitespaceJustification() {
 	_ = h
 }
 
-// Test case: gosec:ignore without justification (will fail)
+// Test case: gosec:disable without justification (will fail)
 func gosecIgnoreNoJustification() {
-	//gosec:ignore G401 // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
+	//gosec:disable G401 // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
 	h := md5.New()
 	_ = h
 }
 
-// Test case: gosec:ignore with justification (OK)
+// Test case: gosec:disable with justification (OK)
 func gosecIgnoreWithJustification() {
-	//gosec:ignore G401 -- Using MD5 for non-cryptographic checksums
+	//gosec:disable G401 -- Using MD5 for non-cryptographic checksums
 	h := md5.New()
 	_ = h
 }

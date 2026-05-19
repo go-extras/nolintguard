@@ -7,7 +7,7 @@ import (
 
 // Test case: forbidden gosec directive
 func useGosec() {
-	//nolint:gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
@@ -20,7 +20,7 @@ func useRevive() error {
 
 // Test case: multiple linters including forbidden ones
 func useMultipleLinters() {
-	//nolint:gosec,errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec,errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
@@ -33,7 +33,7 @@ func useReviveWithOthers() error {
 
 // Test case: both gosec and revive
 func useBothForbidden() error {
-	//nolint:gosec,revive // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead" "nolintguard: //nolint:revive is forbidden; use native revive directives instead"
+	//nolint:gosec,revive // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead" "nolintguard: //nolint:revive is forbidden; use native revive directives instead"
 	h := md5.New()
 	_ = h
 	return errors.New("test")
@@ -53,9 +53,9 @@ func useNosecMultiple() {
 	_ = h
 }
 
-// Test case: allowed - gosec:ignore directive
+// Test case: allowed - gosec:disable directive
 func useGosecIgnore() {
-	//gosec:ignore G401 -- Using MD5 for non-cryptographic checksums only
+	//gosec:disable G401 -- Using MD5 for non-cryptographic checksums only
 	h := md5.New()
 	_ = h
 }
@@ -87,28 +87,28 @@ func usePlainNolint() error {
 
 // Test case: gosec in the middle of list
 func useGosecMiddle() {
-	//nolint:errcheck,gosec,staticcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:errcheck,gosec,staticcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: whitespace variations
 func useWhitespace() {
-	//nolint: gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint: gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: block comment
 func useBlockComment() {
-	/* nolint:gosec */ // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	/* nolint:gosec */ // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: space after // (both formats should be detected)
 func useSpaceAfterSlash() {
-	// nolint:gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	// nolint:gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }

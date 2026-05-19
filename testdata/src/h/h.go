@@ -46,7 +46,7 @@ func allowedErrcheck() {
 
 // Test case: gosec in nolint (always forbidden)
 func gosecInNolint() {
-	//nolint:gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
@@ -60,21 +60,21 @@ func reviveInNolint() {
 
 // Test case: Multiple forbidden linters including gosec
 func multipleForbiddenWithGosec() {
-	//nolint:gosec,staticcheck,unused // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead" "nolintguard: //nolint:staticcheck is forbidden" "nolintguard: //nolint:unused is forbidden"
+	//nolint:gosec,staticcheck,unused // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead" "nolintguard: //nolint:staticcheck is forbidden" "nolintguard: //nolint:unused is forbidden"
 	h := md5.New()
 	_ = h
 }
 
-// Test case: gosec:ignore without justification (should fail)
+// Test case: gosec:disable without justification (should fail)
 func gosecIgnoreNoJustification() {
-	//gosec:ignore G401 // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
+	//gosec:disable G401 // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
 	h := md5.New()
 	_ = h
 }
 
-// Test case: gosec:ignore with justification (should pass)
+// Test case: gosec:disable with justification (should pass)
 func gosecIgnoreWithJustification() {
-	//gosec:ignore G401 -- Safe usage
+	//gosec:disable G401 -- Safe usage
 	h := md5.New()
 	_ = h
 }
@@ -109,7 +109,7 @@ func mixedLinters() {
 
 // Test case: All three types of forbidden (gosec, revive, custom)
 func allThreeForbidden() {
-	//nolint:gosec,revive,staticcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead" "nolintguard: //nolint:revive is forbidden; use native revive directives instead" "nolintguard: //nolint:staticcheck is forbidden"
+	//nolint:gosec,revive,staticcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead" "nolintguard: //nolint:revive is forbidden; use native revive directives instead" "nolintguard: //nolint:staticcheck is forbidden"
 	h := md5.New()
 	_ = h
 }

@@ -54,7 +54,7 @@ type Config struct {
 }
 
 const (
-	gosecMessage             = "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	gosecMessage             = "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	reviveMessage            = "nolintguard: //nolint:revive is forbidden; use native revive directives instead"
 	nosecNoJustificationMsg  = "nolintguard: #nosec directive must include justification (-- reason)"
 	gosecNoJustificationMsg  = "nolintguard: //gosec: directive must include justification (-- reason)"
@@ -213,7 +213,7 @@ func checkNosecJustification(pass *analysis.Pass, comment *ast.Comment, text str
 }
 
 // checkGosecDirectiveJustification verifies that a //gosec: directive includes a justification.
-// Format: //gosec:ignore [rules] -- justification or //gosec:disable [rules] -- justification.
+// Format: //gosec:disable [rules] -- justification.
 func checkGosecDirectiveJustification(pass *analysis.Pass, comment *ast.Comment, text string) {
 	if !hasGosecJustification(text) {
 		pass.Reportf(comment.Pos(), "%s", gosecNoJustificationMsg)
