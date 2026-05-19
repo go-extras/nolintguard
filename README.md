@@ -126,9 +126,9 @@ query := "SELECT * FROM " + tableName
 result := exec.Command("ls", userInput).Run()
 ```
 
-**Format 2: `//gosec:ignore` or `//gosec:disable`**
+**Format 2: `//gosec:disable`**
 ```go
-//gosec:ignore G401 -- Using MD5 for non-cryptographic checksums only
+//gosec:disable G401 -- Using MD5 for non-cryptographic checksums only
 hash := md5.New()
 ```
 
@@ -146,7 +146,7 @@ hash := md5.New()
 
 **Error message:**
 ```
-nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead
+nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead
 ```
 
 ### 2. Forbidden: `//nolint:revive`
@@ -214,7 +214,7 @@ linters-settings:
 // #nosec G401
 hash := md5.New()
 
-//gosec:ignore G101
+//gosec:disable G101
 const apiKey = "placeholder"
 
 //revive:disable
@@ -227,7 +227,7 @@ type myType struct { ... }
 // #nosec G401 -- Using MD5 for non-cryptographic checksums only
 hash := md5.New()
 
-//gosec:ignore G101 -- This is a placeholder, not a real credential
+//gosec:disable G101 -- This is a placeholder, not a real credential
 const apiKey = "placeholder"
 
 // Revive uses space-separated justification (no -- marker)

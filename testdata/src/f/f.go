@@ -8,42 +8,42 @@ import (
 
 // Test case: Duplicate linters in nolint directive
 func duplicateLinters() {
-	//nolint:gosec,gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead" "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec,gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead" "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Trailing comma
 func trailingComma() {
-	//nolint:gosec, // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec, // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Leading comma (should be ignored as invalid format)
 func leadingComma() {
-	//nolint:,gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:,gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Multiple consecutive commas
 func multipleCommas() {
-	//nolint:gosec,,errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec,,errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Tab character in linter list
 func tabCharacter() {
-	//nolint:	gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:	gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Lots of whitespace
 func lotsOfWhitespace() {
-	//nolint:   gosec   ,   errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:   gosec   ,   errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
@@ -64,42 +64,42 @@ func colonAndSpaces() {
 
 // Test case: Very long linter list
 func longLinterList() {
-	//nolint:errcheck,ineffassign,staticcheck,unused,deadcode,varcheck,structcheck,gosec,typecheck,bodyclose // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:errcheck,ineffassign,staticcheck,unused,deadcode,varcheck,structcheck,gosec,typecheck,bodyclose // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: gosec at the end of a long list
 func gosecAtEnd() {
-	//nolint:errcheck,ineffassign,staticcheck,unused,gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:errcheck,ineffassign,staticcheck,unused,gosec // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Multiple forbidden linters in one directive
 func multipleForbidden() {
-	//nolint:gosec,revive,errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead" "nolintguard: //nolint:revive is forbidden; use native revive directives instead"
+	//nolint:gosec,revive,errcheck // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead" "nolintguard: //nolint:revive is forbidden; use native revive directives instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: nolint with inline comment containing colon
 func inlineCommentWithColon() {
-	//nolint:gosec // TODO: fix this later // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec // TODO: fix this later // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Block comment with nolint
 func blockCommentNolint() {
-	/* nolint:gosec */ // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	/* nolint:gosec */ // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: Block comment with nolint at start
 func blockCommentNolintAtStart() {
-	/* nolint:gosec */ // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	/* nolint:gosec */ // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }
@@ -118,9 +118,9 @@ func nosecTab() {
 	_ = h
 }
 
-// Test case: gosec:ignore with extra spaces
+// Test case: gosec:disable with extra spaces
 func gosecIgnoreSpaces() {
-	//gosec:ignore    G401   --   Justified
+	//gosec:disable    G401   --   Justified
 	h := md5.New()
 	_ = h
 }
@@ -148,7 +148,7 @@ func nolintNotDirective() {
 
 // Test case: Empty linter name in list
 func emptyLinterName() {
-	//nolint:gosec,,, // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:ignore instead"
+	//nolint:gosec,,, // want "nolintguard: //nolint:gosec is forbidden; use #nosec or //gosec:disable instead"
 	h := md5.New()
 	_ = h
 }

@@ -76,9 +76,9 @@ func nosecWhitespaceJustification() {
 	_ = h
 }
 
-// Test case: gosec:ignore with multiple rules
+// Test case: gosec:disable with multiple rules
 func gosecIgnoreMultipleRules() {
-	//gosec:ignore G201 G202 -- SQL is safe
+	//gosec:disable G201 G202 -- SQL is safe
 	h := md5.New()
 	_ = h
 }
@@ -97,30 +97,30 @@ func gosecDisableNoJustification() {
 	_ = h
 }
 
-// Test case: gosec:ignore with empty justification
+// Test case: gosec:disable with empty justification
 func gosecIgnoreEmptyJustification() {
-	//gosec:ignore G401 -- // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
+	//gosec:disable G401 -- // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
 	h := md5.New()
 	_ = h
 }
 
-// Test case: gosec:ignore with whitespace justification
+// Test case: gosec:disable with whitespace justification
 func gosecIgnoreWhitespaceJustification() {
-	//gosec:ignore G401 --   // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
+	//gosec:disable G401 --   // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
 	h := md5.New()
 	_ = h
 }
 
 // Test case: gosec directive with extra spaces
 func gosecExtraSpaces() {
-	//gosec:ignore    G401    --    Justified
+	//gosec:disable    G401    --    Justified
 	h := md5.New()
 	_ = h
 }
 
 // Test case: gosec directive with tabs
 func gosecTabs() {
-	//gosec:ignore	G401	--	Justified
+	//gosec:disable	G401	--	Justified
 	h := md5.New()
 	_ = h
 }
@@ -139,16 +139,16 @@ func nosecBlockCommentJustified() {
 	_ = h
 }
 
-// Test case: gosec:ignore in block comment
+// Test case: gosec:disable in block comment
 func gosecIgnoreBlockComment() {
-	/* gosec:ignore G401 */ // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
+	/* gosec:disable G401 */ // want "nolintguard: //gosec: directive must include justification \\(-- reason\\)"
 	h := md5.New()
 	_ = h
 }
 
-// Test case: gosec:ignore in block comment with justification
+// Test case: gosec:disable in block comment with justification
 func gosecIgnoreBlockCommentJustified() {
-	/* gosec:ignore G401 -- Safe usage */
+	/* gosec:disable G401 -- Safe usage */
 	h := md5.New()
 	_ = h
 }

@@ -21,7 +21,7 @@ func nosecWithJustification() {
 
 // This should always be allowed
 func gosecIgnoreWithJustification() {
-	//gosec:ignore G401 -- Safe usage
+	//gosec:disable G401 -- Safe usage
 	h := md5.New()
 	_ = h
 }
